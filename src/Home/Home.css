@@ -1,0 +1,25 @@
+/* Initial state before scroll */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.5s ease-out;
+  }
+  
+  /* State when the element is visible */
+  .scroll-animate.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }

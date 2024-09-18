@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body {
+  user-select: none;
+  font-family: 'Anek Devanagari', sans-serif;
+  /* Applies Hind font to the entire body */
+}
+
+body::-webkit-scrollbar{
+  display: none;
+}
+
+.hind-light {
+  font-family: "Hind", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.hind-regular {
+  font-family: "Hind", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.hind-medium {
+  font-family: "Hind", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.hind-semibold {
+  font-family: "Hind", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.hind-bold {
+  font-family: "Hind", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}

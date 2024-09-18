@@ -1,0 +1,10 @@
+.parent-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-container {
+    flex: 1;
+  }
+  

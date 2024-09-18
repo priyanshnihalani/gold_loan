@@ -1,0 +1,11 @@
+/* Footer.css */
+
+.pos {
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
+.back{
+    mix-blend-mode: multiply;
+}
+
