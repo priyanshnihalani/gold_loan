@@ -16,6 +16,7 @@ function Signin() {
               }
               else{
                 alert("Someting went wrong, Try again.")
+                console.log(error)
               }
         })
       };

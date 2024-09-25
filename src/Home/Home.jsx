@@ -26,10 +26,12 @@ function Home() {
         };
 
         window.addEventListener('scroll', handleScroll);
+        console.log(auth.currentUser)
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
+        
+    }, [auth]);
 
 
     function handleApply() {

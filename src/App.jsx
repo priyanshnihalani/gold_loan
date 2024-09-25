@@ -11,6 +11,7 @@ import Page from './404_Page/Page'
 import ForgetPasswordEmail from './ForgetPasswordEmail/ForgetPasswordEmail'
 import EmailVerify from './email_verification/EmailVerfiy'
 import Users from './Users/Users'
+import Aboutus from './Aboutus/Aboutus'
 function App() {
 
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path='verify-email' element={<EmailVerify />} />
         <Route path='users' element={<Users/>} />
         <Route path="*" element={<Page />}/>
+        <Route path='aboutus' element={<Aboutus />} />
       </Routes>
     </>
   )

@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, firestoredb } from "../firebase";
 import { useSelector } from "react-redux";
-import { setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 function EmailVerify() {
     const form1Data = useSelector((state) => state.form.form1);
@@ -41,9 +41,13 @@ function EmailVerify() {
                                 if (user.emailVerified) {
                                     clearInterval(intervalId);
                                     alert("Email verified successfully! Redirecting to home page...");
-                                    const profile = doc(firestoredb, "users", user.uid, "profile")
-                                    await setDoc(profile, form1Data)
+                                    const profile = doc(firestoredb, "users", user.uid);
+                                    let collection = {
+                                        "profile":form1Data
+                                    }
+                                    await setDoc(profile, collection, {merge:true})
                                     navigate('/');
+                                    console.log(user)
                                 }
                             })
                             .catch((error) => {

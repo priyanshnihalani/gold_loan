@@ -162,7 +162,7 @@ function handleImageChange(e, index) {
             maxWidthOrHeight: 1920,  
             useWebWorker: true  
         };
-
+        
         imageCompression(file, options)
             .then((compressedFile) => {
                 const reader = new FileReader();

@@ -6,9 +6,8 @@ import goldApi from '../goldApi.json';
 import Header from '../Header/Header';
 import { auth, db, firestoredb } from '../firebase';
 import { useNavigate } from 'react-router';
-import { ref, set } from 'firebase/database';
 import emailjs from 'emailjs-com'
-import { doc, setDoc } from 'firebase/firestore';
+import { setDoc, doc } from 'firebase/firestore';
 
 const Loan_Info = () => {
 
@@ -92,46 +91,55 @@ const Loan_Info = () => {
         setFinalData(updatedData);
     }, [form2Data, goldPrice, caratPrice, eligibleAmount, interest]);
 
-
+    
     async function handleApply(e) {
         e.preventDefault();
-    
         const user = auth.currentUser;
-    
         if (user) {
             try {
+                const document = doc(firestoredb, "account", user.uid)
+                function randomValue(min, max) {
+                    return Math.round(Math.random() * (max - min + 1) + min);
+                }
+                setDoc(document, { Balance: randomValue(100000, 1000000), salary: randomValue(50000, 100000) }).then(
+                    console.log("Document added with ID: ", document.id)
+                )
+                    .catch((error) => {
+                        console.error("Error adding document: ", error);
+                    })
+
                 const itemPromises = finalData.map(async (item, index) => {
                     const mortgate_ornaments = doc(firestoredb, "users", user.uid);
                     const collection = {
-                        "loan_info":{
+                        "loan_info": {
                             "ornaments": {
                                 [`${index}`]: item
                             }
                         }
                     }
-                    
+
                     try {
-                        await setDoc(mortgate_ornaments, collection, {merge: true});
+                        await setDoc(mortgate_ornaments, collection, { merge: true });
                     } catch (error) {
                         console.error("Error setting item:", error);
                     }
                 });
-    
+
                 // Wait for all item updates to complete
                 await Promise.all(itemPromises);
-    
+
                 // Reference and set the TotalAmountInterest document
                 const total = doc(firestoredb, "users", user.uid);
                 const collection1 = {
                     "loan_info": {
                         "TotalAmountInterest": {
-                            TotalAmount: grandTotal, TotalInterest: grandInterest 
+                            TotalAmount: grandTotal, TotalInterest: grandInterest
                         }
                     }
                 }
-                await setDoc(total, collection1, {merge: true});
-    
-                // Reference and set the loan status document
+                await setDoc(total, collection1, { merge: true });
+
+
                 const status = doc(firestoredb, "users", user.uid);
                 const collection2 = {
                     "loan_info": {
@@ -140,15 +148,14 @@ const Loan_Info = () => {
                         }
                     }
                 }
-                await setDoc(status, collection2, {merge: true});
-    
-                // Prepare and send email using Email.js
+                await setDoc(status, collection2, { merge: true });
+
                 const templateForm = {
                     to_email: user.email,
                     to_name: user.displayName || 'Valued Customer',
                     from_name: 'Mannat Gold Loans',
                 };
-    
+
                 // await emailjs.send('service_6ua5b5v', 'template_295do08', templateForm, 'B8P7nWodrCWRWJC27')
                 //     .then(() => {
                 //         navigate('/');
@@ -156,7 +163,7 @@ const Loan_Info = () => {
                 //     .catch((error) => {
                 //         alert("Error sending email:", error);
                 //     });
-    
+
             } catch (error) {
                 console.error("Error in handleApply:", error);
             }
@@ -164,7 +171,7 @@ const Loan_Info = () => {
             alert("No authenticated user found.");
         }
     }
-    
+
 
     return (
         <>

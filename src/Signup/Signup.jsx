@@ -6,7 +6,8 @@ import { createUserWithEmailAndPassword} from 'firebase/auth';
 import { signInWithPopup } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { nameandphone } from '../Redux/formReducer';
-
+import { firestoredb } from '../firebase';
+import { collection, addDoc, doc } from 'firebase/firestore';
 function Signup() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const navigate = useNavigate();
