@@ -26,8 +26,9 @@ function Header() {
             else{
                 setUserExist(false)
             }
+            // console.log(user)
         })
-    }, [])
+    }, [])  
     useEffect(() => {
         if (location.pathname == '/' || location.pathname == '/aboutus') {
             setColor(true)

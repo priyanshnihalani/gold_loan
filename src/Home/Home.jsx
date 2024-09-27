@@ -8,12 +8,17 @@ import { FaClock, FaEnvelope, FaLocationArrow, FaMobile } from "react-icons/fa";
 import './Home.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faDollarSign, faEye } from "@fortawesome/free-solid-svg-icons";
-import { auth } from "../firebase";
+import { auth, firestoredb } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 
 function Home() {
     const navigate = useNavigate();
     const [first, setfirst] = useState(false)
+    const [data, setData] = useState(null)
+    const [display, setDisplay] = useState(false)
+    const [user, setUser] = useState(null)
+    let userId;
     useEffect(() => {
         const handleScroll = () => {
             const elements = document.querySelectorAll('.scroll-animate');
@@ -26,20 +31,41 @@ function Home() {
         };
 
         window.addEventListener('scroll', handleScroll);
-        console.log(auth.currentUser)
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-        
+
     }, [auth]);
-
-
+    async function fetchData(userId) {
+        const docRef = doc(firestoredb, 'users', userId);
+        try {
+            const docSnap = await getDoc(docRef);
+            setData(docSnap.data())
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                fetchData(user.uid)
+            }
+        })
+    }, [])
+    console.log(data)
     function handleApply() {
         auth.onAuthStateChanged((user) => {
             if (user) {
-                navigate('/personal_info')
+                if (!data) {
+                    navigate('/personal_info')
+                }
+                else {
+                    setDisplay(true)
+                }
             }
-            else{
+            else {
                 navigate('/sign_in')
             }
         })
@@ -65,13 +91,19 @@ function Home() {
                                         Enjoy quick approval, low interest rates, and no hidden charges with our hassle-free gold loan process. Your gold is safe with us, and you get the highest value for it.
                                     </p>
                                     <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
-                                        <button className="bg-gradient-to-r from-yellow-500 to-yellow-700 text-white font-bold text-lg rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 px-8 py-3" onClick={handleApply}>
-                                            <span className="flex items-center justify-center">Apply Now</span>
-                                        </button>
-                                        <button onClick={visiblity} className="bg-gray-800 text-white px-8 py-3 rounded-lg shadow-lg transition-colors duration-300 hover:bg-gray-700">
-                                            Get a Quote
-                                        </button>
+                                        <div>
+
+                                            <button className="bg-gradient-to-r from-yellow-500 to-yellow-700 text-white font-bold text-lg rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 px-8 py-3" onClick={handleApply}>
+                                                <span className="flex items-center justify-center">Apply Now</span>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button onClick={visiblity} className="bg-gray-800 text-white px-8 py-3 rounded-lg shadow-lg transition-colors duration-300 hover:bg-gray-700">
+                                                Get a Quote
+                                            </button>
+                                        </div>
                                     </div>
+                                    {display ? <p className="text-red-600 font-medium mt-4">Loan Has Already Been Applied!</p> : <></>}
                                     <div className={`absolute mt-12 ${first ? 'block' : 'hidden'} bg-gray-800 p-6 rounded-lg shadow-lg`}>
                                         <h2 className="text-2xl font-semibold mb-4">Get a Personalized Quote</h2>
                                         <p className="mb-4">Wondering how much your gold is worth? Get a quick and accurate estimate by simply providing a few details. We’ll offer you a personalized quote that reflects the true value of your assets.</p>
@@ -155,7 +187,7 @@ function Home() {
                                 <p className="max-w-2xl leading-relaxed text-xl">
                                     Founded in 2004, Mannat Gold Loans has been a trusted name in the financial sector, offering quick and secure gold loan services to countless satisfied customers. With a commitment to transparency and customer satisfaction, we provide financial solutions tailored to your needs.
                                 </p>
-                                <button className="p-3  bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 text-white font-bold text-lg rounded-md shadow-lg transform transition-transform duration-200 hover:scale-105">
+                                <button className="p-3  bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 text-white font-bold text-lg rounded-md shadow-lg transform transition-transform duration-200 hover:scale-105" onClick={() => navigate('/aboutus')}>
                                     Learn More
                                 </button>
                             </div>
