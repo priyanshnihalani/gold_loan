@@ -70,14 +70,14 @@ function Users() {
       setLastDate()
     }
     else {
-      async function checkEmi(){
+      async function checkEmi() {
 
         const monthsPassed = calculateMonthsPassed(lastEmiDate, currentDate);
-        
+
         if (monthsPassed > 0 && remainEmi > 0) {
           updateFirestore(monthsPassed);
         }
-        if (remainEmi <= 0){
+        if (remainEmi <= 0) {
           alert("Loan Paid Successfully!")
         }
       }
@@ -212,29 +212,29 @@ function Users() {
           {userData.loan_info ? (
             <div>
               <div className="mb-4 text-justify">
-                <p className="border-2 p-2 text-lg font-semibold text-gray-800">
-                  Loan Amount: <span className="text-gold-600">₹ {userData.loan_info?.TotalAmountInterest?.TotalAmount}</span>
+                <p className="bg-gray-50 rounded-lg p-4 text-lg font-semibold text-gray-800">
+                  Loan Amount: <span className="text-yellow-500">₹ {userData.loan_info?.TotalAmountInterest?.TotalAmount}</span>
                 </p>
-                <p className="border-2 p-2 text-lg font-semibold text-gray-800">
-                  Repayment In: <span className="text-gray-600">30 Days</span>
+                <p className="bg-gray-50  p-4 text-lg font-semibold text-gray-800">
+                  Repayment In: <span className="text-gray-700">30 Days</span>
                 </p>
-                <p className="border-2 p-2 text-lg font-semibold text-gray-800">
-                  Total Interest: <span className="text-gold-600">₹ {userData.loan_info?.TotalAmountInterest?.TotalInterest}</span>
+                <p className="bg-gray-50  p-4 text-lg font-semibold text-gray-800">
+                  Total Interest: <span className="text-yellow-500">₹ {userData.loan_info?.TotalAmountInterest?.TotalInterest}</span>
                 </p>
-                <p className="border-2 p-2 text-lg font-semibold text-gray-800">
-                  Monthly EMI: <span className="text-gold-600">₹ {emi}</span>
+                <p className="bg-gray-50 rounded-lg p-4 text-lg font-semibold text-gray-800">
+                  Monthly EMI: <span className="text-yellow-500">₹ {emi}</span>
                 </p>
               </div>
 
               <div className="mb-0 text-justify">
-                <p className="border-2 p-2 text-lg font-semibold text-gray-800">
+                <p className="bg-gray-50 rounded-lg p-4 text-lg font-semibold text-gray-800">
                   EMI's Paid: <span className="text-gray-600">{userData.loan_info?.emiNo || 0}</span>
                 </p>
-                <p className="border-2 p-2 text-lg font-semibold text-gray-800">
-                  Paid Amount (inc. interest): <span className="text-gold-600">₹ {userData.loan_info?.paidEmi}</span>
+                <p className="bg-gray-50 p-4 text-lg font-semibold text-gray-800">
+                  Paid Amount (inc. interest): <span className="text-yellow-500">₹ {userData.loan_info?.paidEmi}</span>
                 </p>
-                <p className="border-2 p-2 text-lg font-semibold text-gray-800">
-                  Remaining Amount (inc. interest): <span className="text-gold-600">₹ {userData.loan_info?.remainEmi}</span>
+                <p className="bg-gray-50 rounded-lg p-4 text-lg font-semibold text-gray-800">
+                  Remaining Amount (inc. interest): <span className="text-yellow-500">₹ {userData.loan_info?.remainEmi}</span>
                 </p>
               </div>
             </div>
@@ -251,27 +251,43 @@ function Users() {
         </div>
       </div>
 
-      {/* Ornaments Section */}
-      <div className="flex flex-col min-h-10 overflow-scroll px-2 w-full lg:w-[60%] space-y-6 scroller">
-        <h1 className='font-bold text-3xl m-0'>Ornament Information</h1>
-        {Object.keys(ornaments).map((item) => {
+      <div className="my-20 lg:my-0 flex flex-col min-h-[400px] overflow-auto px-2 w-full lg:w-[60%] space-y-6 scroller">
+        <h1 className='font-bold text-3xl m-0 text-gray-800'>Ornament Information</h1>
+
+       
+         {Object.keys(ornaments).map((item) => {
           const ornament = userData.loan_info.ornaments[item];
           return (
-            <div key={item} className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 items-center bg-white shadow-md hover:shadow-2xl transition-shadow p-4 rounded-md">
-              <div>
-                <img src={ornament.image} alt="" className="w-32 h-32 sm:w-44 sm:h-44" />
+            <div
+              key={item}
+              className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 items-center bg-white shadow-md hover:shadow-lg transition-shadow p-4 rounded-lg"
+            >
+              <div className="w-32 h-32 sm:w-44 sm:h-44 flex-shrink-0">
+                <img src={ornament.image} alt="Ornament" className="w-full h-full object-cover rounded-md" />
               </div>
+
               <div className="text-center sm:text-left">
-                <p>Ornament Name: {ornament.ornamentName}</p>
-                <p>Ornament Weight: {ornament.weight} g</p>
-                <p>Ornament Carats: {ornament.carats} </p>
-                <p>Amount You Have Get For Ornament: ₹ {ornament.eligibleAmount} </p>
-                <p>Interest You Have To Pay For This: ₹ {ornament.interest}</p>
+                <p className="text-lg font-semibold text-gray-700">Ornament Name:
+                  <span className="font-bold ml-2 text-gray-900">{ornament.ornamentName}</span>
+                </p>
+                <p className="text-lg text-gray-700">Ornament Weight:
+                  <span className="font-semibold ml-2">{ornament.weight} g</span>
+                </p>
+                <p className="text-lg text-gray-700">Ornament Carats:
+                  <span className="font-semibold ml-2">{ornament.carats}</span>
+                </p>
+                <p className="text-lg text-gray-700">Amount You Have Get For Ornament:
+                  <span className="text-green-500 font-bold ml-2">₹ {ornament.eligibleAmount}</span>
+                </p>
+                <p className="text-lg text-gray-700">Interest You Have To Pay For This:
+                  <span className="text-red-500 font-bold ml-2">₹ {ornament.interest}</span>
+                </p>
               </div>
             </div>
           );
         })}
       </div>
+
     </div>
   );
 }
