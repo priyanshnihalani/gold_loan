@@ -9,7 +9,7 @@ import './Home.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faDollarSign, faEye } from "@fortawesome/free-solid-svg-icons";
 import { auth, firestoredb } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 
 function Home() {
@@ -17,8 +17,20 @@ function Home() {
     const [first, setfirst] = useState(false)
     const [data, setData] = useState(null)
     const [display, setDisplay] = useState(false)
-    const [user, setUser] = useState(null)
-    let userId;
+    const [userId, setUserId] = useState(null)
+    const [accountData, setAccountData] = useState(null)
+
+    async function fetchData(collection, uid, setData) {
+        const docRef = doc(firestoredb, collection, uid);
+        try {
+            const docSnap = await getDoc(docRef);
+            setData(docSnap.data())
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         const handleScroll = () => {
             const elements = document.querySelectorAll('.scroll-animate');
@@ -37,38 +49,77 @@ function Home() {
         };
 
     }, [auth]);
-    async function fetchData(userId) {
-        const docRef = doc(firestoredb, 'users', userId);
-        try {
-            const docSnap = await getDoc(docRef);
-            setData(docSnap.data())
-        }
-        catch (error) {
-            console.log(error)
-        }
-    }
+
+
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
-                fetchData(user.uid)
+                setUserId(user.uid)
+                fetchData('users', user.uid, setData)
             }
         })
     }, [])
-    console.log(data)
-    function handleApply() {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                if (!data) {
-                    navigate('/personal_info')
+
+    function calculateMonthsPassed(lastSalaryDate, currentDate) {
+
+        const lastSalaryYear = lastSalaryDate.getFullYear();
+        const lastSalaryMonth = lastSalaryDate.getMonth() + 1;
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1;
+
+        const monthsPassed = (currentYear - lastSalaryYear) * 12 + (currentMonth - lastSalaryMonth);
+
+        return monthsPassed;
+
+    }
+
+    useEffect(() => {
+        if (userId) {
+            fetchData('account', userId, setAccountData)
+            async function setData() {
+                if (accountData) {
+                    const lastSalaryDate = accountData.lastSalaryDate?.toDate()
+                    if (!lastSalaryDate) {
+                        const docRef = doc(firestoredb, 'account', userId);
+                        await setDoc(docRef, {
+                            ...accountData,
+                            lastSalaryDate: new Date()
+                        });
+                    }
+                    else {
+                        const balance = Number(accountData.Balance);
+                        const salary = Number(accountData.salary);
+
+                        const monthsPassed = calculateMonthsPassed(lastSalaryDate, new Date());
+                        const docRef = doc(firestoredb, 'account', userId);
+                        await setDoc(docRef, {
+                            ...accountData,
+                            Balance: Number(balance + (salary * monthsPassed)).toFixed(2),
+                            lastSalaryDate: new Date()
+                        });
+                    }
                 }
-                else {
+            }
+            setData()
+        }
+    }, [data, userId])
+    console.log(accountData)
+    function handleApply() {
+        if (userId) {
+            if (!data) {
+                navigate('/personal_info')
+            }
+            else {
+                let remainingEmi = Number(data.loan_info.remainEmi)
+                console.log(remainingEmi)
+                if (remainingEmi > 0) {
                     setDisplay(true)
                 }
             }
-            else {
-                navigate('/sign_in')
-            }
-        })
+        }
+        else {
+            navigate('/sign_in')
+        }
     }
 
     function visiblity() {

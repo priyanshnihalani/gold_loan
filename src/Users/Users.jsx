@@ -195,7 +195,7 @@ function Users() {
 
   return (
     <div className="w-full min-h-screen flex flex-col lg:flex-row justify-between bg-gray-50 py-8 md:pb-80 lg:py-8 px-4 lg:px-20 lg:space-x-5">
-      <div className="w-full lg:w-[40%] bg-white shadow-lg rounded-lg p-6 flex flex-col border border-gray-200 mb-6 lg:mb-0">
+      <div className="w-full lg:w-[40%] bg-white shadow-lg rounded-lg p-6 flex flex-col border border-gray-200 mb-0 lg:mb-0">
         {/* Profile Section */}
         <div className="flex flex-col items-center mb-4">
           {userData.profile && (
@@ -208,7 +208,7 @@ function Users() {
         </div>
 
         {/* Loan Details Section */}
-        <div className="w-full">
+        <div className="w-full ">
           {userData.loan_info ? (
             <div>
               <div className="mb-4 text-justify">
@@ -226,7 +226,7 @@ function Users() {
                 </p>
               </div>
 
-              <div className="mb-6 text-justify">
+              <div className="mb-0 text-justify">
                 <p className="border-2 p-2 text-lg font-semibold text-gray-800">
                   EMI's Paid: <span className="text-gray-600">{userData.loan_info?.emiNo || 0}</span>
                 </p>
@@ -252,7 +252,7 @@ function Users() {
       </div>
 
       {/* Ornaments Section */}
-      <div className="min-h-screen overflow-scroll px-2 w-full lg:w-[60%] space-y-6 scroller">
+      <div className="flex flex-col min-h-10 overflow-scroll px-2 w-full lg:w-[60%] space-y-6 scroller">
         <h1 className='font-bold text-3xl m-0'>Ornament Information</h1>
         {Object.keys(ornaments).map((item) => {
           const ornament = userData.loan_info.ornaments[item];
