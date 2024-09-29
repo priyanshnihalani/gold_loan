@@ -7,7 +7,7 @@ function Footer() {
         <>
 
             <footer className="text-black mt-0  w-full shadow-xl  ">
-                <div className='py-[.6rem] bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500  mx-[0.10rem] shadow-xl'>
+                <div className='py-[1rem] bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500  mx-[0.10rem] shadow-xl'>
                     {/* <div className='bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 opacity-50 backdrop:blur p-1 rounded-tr-xl rounded-tl-xl mx-1 '></div> */}
                 </div>
 
@@ -40,7 +40,7 @@ function Footer() {
                                 </div>
                             </div>
                         </div>
-                        <hr className='w-full border-2 border-black' />
+                        <hr className='w-full border border-black' />
                         <div className='flex flex-col md:flex-row justify-between pt-3 items-center'>
                             <div className='flex flex-col md:flex-row justify-center space-x-3 mb-3 md:mb-0'>
                                 <div>

@@ -36,7 +36,7 @@ function Header() {
     },[location.pathname])
 
     return (
-        <div className={`z-20 absolute w-full ${color ? 'bg-transparent' : 'bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700'}  `}>
+        <div className={`z-10 ${color ? 'absolute' : 'relative'} w-full ${color ? 'bg-transparent' : 'bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700'}  `}>
             <header className="lg:flex items-center justify-between min-h-16 p-4 md:p-6 shadow-md">
                 <div className="flex items-center w-full md:w-auto">
                     <button
@@ -54,7 +54,7 @@ function Header() {
                     <ul className="flex flex-col md:flex-row md:space-x-8 space-y-4 md:space-y-0 text-center md:text-left font-medium text-lg">
                         <li><Link to="/" className="hover:text-pink-500">Home</Link></li>
                         <li><Link to="/aboutus" className="hover:text-pink-500">About Us</Link></li>
-                        <li><Link to="/contact" className="hover:text-pink-500">Contact Us</Link></li>
+                        <li><Link to="/contactus" className="hover:text-pink-500">Contact Us</Link></li>
                         <li><Link to="/privacy_policy" className="hover:text-pink-500">Privacy Policy</Link></li>
                     </ul>
                     {

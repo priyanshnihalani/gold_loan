@@ -12,6 +12,7 @@ import ForgetPasswordEmail from './ForgetPasswordEmail/ForgetPasswordEmail'
 import EmailVerify from './email_verification/EmailVerfiy'
 import Users from './Users/Users'
 import Aboutus from './Aboutus/Aboutus'
+import ContactUs from './ContactUs/ContactUs'
 function App() {
 
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path='users' element={<Users/>} />
         <Route path="*" element={<Page />}/>
         <Route path='aboutus' element={<Aboutus />} />
+        <Route path='contactus' element={<ContactUs />} />
       </Routes>
     </>
   )
