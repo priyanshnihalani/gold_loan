@@ -4,7 +4,7 @@ import Footer from '../Footer/Footer';
 import './Loan_Info.css';
 import goldApi from '../goldApi.json';
 import Header from '../Header/Header';
-import { auth, db, firestoredb } from '../firebase';
+import { auth, firestoredb } from '../firebase';
 import { useNavigate } from 'react-router';
 import emailjs from 'emailjs-com'
 import { setDoc, doc } from 'firebase/firestore';
