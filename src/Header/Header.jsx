@@ -36,7 +36,7 @@ function Header() {
     },[location.pathname])
 
     return (
-        <div className={`z-10 ${color ? 'absolute' : 'relative'} w-full ${color ? 'bg-transparent' : 'bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700'}  `}>
+        <div className={`z-20 ${color ? 'absolute' : 'relative'} w-full ${color ? 'bg-transparent' : 'bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700'}  `}>
             <header className="lg:flex items-center justify-between min-h-16 p-4 md:p-6 shadow-md">
                 <div className="flex items-center w-full md:w-auto">
                     <button
