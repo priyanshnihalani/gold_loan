@@ -131,7 +131,7 @@ function Home() {
             <div className="flex flex-col min-h-screen">
                 <Header />
                 <main className="flex-grow">
-                    <div className="relative w-full bg-[url('Designer2.jpeg')] bg-center bg-cover min-h-screen flex items-center justify-center text-center px-6 lg:px-12">
+                    <div className="relative w-full bg-[url('/Designer2.jpeg')] bg-center bg-cover min-h-screen flex items-center justify-center text-center px-6 lg:px-12">
                         <div className="absolute inset-0 min-h-screen bg-black bg-opacity-70 backdrop-blur-sm"></div>
                         <div className="space-y-6 text-white z-10">
                             {/* Hero Section */}

@@ -9,7 +9,7 @@ function Aboutus() {
       
       {/* Hero Section */}
       <div className="relative">
-        <img src="Designer.jpeg" className="w-full h-screen object-cover" alt="Designer Background" />
+        <img src="/Designer.jpeg" className="w-full h-screen object-cover" alt="Designer Background" />
         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center">
           <h1 className="text-5xl font-bold text-white mb-4">Welcome to Mannat Gold Loans</h1>
           <p className="text-3xl text-white">Let's see About Us.</p>
