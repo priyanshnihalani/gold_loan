@@ -228,7 +228,7 @@ function Home() {
 
                     <section id="about scroll-animate">
                         <div className="p-6 lg:flex lg:py-20 lg:pl-40 lg:justify-center lg:items-center  ">
-                            <div className=" md:w-1/2 md:mx-auto  lg:w-1/3 h-[400px] bg-cover bg-center bg-[url('about.jpg')]">
+                            <div className=" md:w-1/2 md:mx-auto  lg:w-1/3 h-[400px] bg-cover bg-center bg-[url('/about.jpg')]">
 
                             </div>
                             <div className="lg:w-[68%] text-justify md:px-10 py-12 space-y-4">
