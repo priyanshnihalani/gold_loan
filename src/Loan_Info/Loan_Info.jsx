@@ -156,13 +156,13 @@ const Loan_Info = () => {
                     from_name: 'Mannat Gold Loans',
                 };
 
-                // await emailjs.send('service_6ua5b5v', 'template_295do08', templateForm, 'B8P7nWodrCWRWJC27')
-                //     .then(() => {
-                //         navigate('/');
-                //     })
-                //     .catch((error) => {
-                //         alert("Error sending email:", error);
-                //     });
+                await emailjs.send('service_6ua5b5v', 'template_295do08', templateForm, 'B8P7nWodrCWRWJC27')
+                    .then(() => {
+                        navigate('/');
+                    })
+                    .catch((error) => {
+                        alert("Error sending email:", error);
+                    });
 
             } catch (error) {
                 console.error("Error in handleApply:", error);
