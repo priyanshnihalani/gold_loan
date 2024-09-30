@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -31,6 +31,11 @@ function Home() {
         }
     }
 
+    const [startCount, setStartCount] = useState(false);
+
+    // Ref for customer section
+    const customerRef = useRef(null);
+
     useEffect(() => {
         const handleScroll = () => {
             const elements = document.querySelectorAll('.scroll-animate');
@@ -40,6 +45,14 @@ function Home() {
                     el.classList.add('show');
                 }
             });
+
+            // Specific check for customer section to start CountUp
+            if (customerRef.current) {
+                const customerRect = customerRef.current.getBoundingClientRect();
+                if (customerRect.top <= window.innerHeight && customerRect.bottom >= 0) {
+                    setStartCount(true);
+                }
+            }
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -47,7 +60,6 @@ function Home() {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-
     }, [auth]);
 
 
@@ -226,7 +238,7 @@ function Home() {
                         </div>
                     </section>
 
-                    <section id="about scroll-animate">
+                    <section id="about" className="scroll-animate">
                         <div className="p-6 lg:flex lg:py-20 lg:pl-40 lg:justify-center lg:items-center  ">
                             <div className=" md:w-1/2 md:mx-auto  lg:w-1/3 h-[400px] bg-cover bg-center bg-[url('/about.jpg')]">
 
@@ -244,64 +256,69 @@ function Home() {
                             </div>
                         </div>
                     </section>
-                    <section id="customer" className="py-16  my-20 md:mb-30 scroll-animate mx-auto px-4">
-                        <div className="flex flex-col items-center space-y-16 lg:flex-row lg:justify-center lg:space-y-0 lg:space-x-10 xl:space-x-20">
-                            {/* Growth Section */}
-                            <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
-                                <div className="mb-6 lg:mb-0">
-                                    <div className="flex items-center justify-center">
-                                        <div className="p-10 sm:p-12 lg:px-12 lg:py-2 border-b">
-                                            <CountUp
-                                                start={0}
-                                                end={65}
-                                                duration={2}
-                                                suffix="%"
-                                                className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Growth</h1>
-                            </div>
-
-                            {/* Happy Clients Section */}
-                            <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
-                                <div className="mb-6 lg:mb-0">
-                                    <div className="flex items-center justify-center">
-                                        <div className=" px-12  py-2 border-b">
-                                            <CountUp
-                                                start={0}
-                                                end={1000}
-                                                suffix="+"
-                                                duration={2}
-                                                className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Happy Clients</h1>
-                            </div>
-
-                            {/* Star Ratings Section */}
-                            <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
-                                <div className="mb-6 lg:mb-0">
-                                    <div className="flex items-center justify-center">
-                                        <div className="px-14 py-2 border-b">
-                                            <CountUp
-                                                start={0}
-                                                end={4.8}
-                                                duration={2}
-                                                decimals={1}
-                                                className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Ratings</h1>
+                    <section id="customer" className="py-16 my-20 md:mb-30 scroll-animate mx-auto px-4" ref={customerRef}>
+            <div className="flex flex-col items-center space-y-16 lg:flex-row lg:justify-center lg:space-y-0 lg:space-x-10 xl:space-x-20">
+                {/* Growth Section */}
+                <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
+                    <div className="mb-6 lg:mb-0">
+                        <div className="flex items-center justify-center">
+                            <div className="p-10 sm:p-12 lg:px-12 lg:py-2 border-b">
+                                {startCount && (
+                                    <CountUp
+                                        start={0}
+                                        end={65}
+                                        duration={2}
+                                        suffix="%"
+                                        className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
+                                    />
+                                )}
                             </div>
                         </div>
-                    </section>
+                    </div>
+                    <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Growth</h1>
+                </div>
+
+                {/* Happy Clients Section */}
+                <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
+                    <div className="mb-6 lg:mb-0">
+                        <div className="flex items-center justify-center">
+                            <div className="px-12 py-2 border-b">
+                                {startCount && (
+                                    <CountUp
+                                        start={0}
+                                        end={1000}
+                                        suffix="+"
+                                        duration={2}
+                                        className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Happy Clients</h1>
+                </div>
+
+                {/* Star Ratings Section */}
+                <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
+                    <div className="mb-6 lg:mb-0">
+                        <div className="flex items-center justify-center">
+                            <div className="px-14 py-2 border-b">
+                                {startCount && (
+                                    <CountUp
+                                        start={0}
+                                        end={4.8}
+                                        duration={2}
+                                        decimals={1}
+                                        className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Ratings</h1>
+                </div>
+            </div>
+        </section>
 
                     <section id="howitworks" className="scroll-animate bg-white py-16 px-5 lg:px-20">
 
