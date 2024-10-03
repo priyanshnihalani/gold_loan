@@ -54,6 +54,7 @@ function EmailVerify() {
                                 if (error.code === 'auth/user-token-expired') {
                                     setError("Your session has expired. Please log in again.");
                                     clearInterval(intervalId);
+                                    user.delete()
                                 } else {
                                     console.error('Error reloading user:', error);
                                 }
@@ -70,6 +71,7 @@ function EmailVerify() {
             } catch (error) {
                 setError("Failed to send verification email. Please try again.");
                 console.error('Error sending verification email:', error);
+                user.delete()
             }
         }
 

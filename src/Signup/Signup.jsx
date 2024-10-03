@@ -30,6 +30,7 @@ function Signup() {
     function handleLogin() {
         signInWithPopup(auth, provider).then(() => navigate('/'))
             .catch((error) => {
+                
                 console.error(error);
             })
     }   
