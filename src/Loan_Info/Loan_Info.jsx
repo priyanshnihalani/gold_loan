@@ -93,7 +93,7 @@ const Loan_Info = () => {
     }, [form2Data, goldPrice, caratPrice, eligibleAmount, interest]);
 
 
-    async function storeUrl(){
+    async function storeUrl(user){
         try{
 
             const imageUrls = []
@@ -119,7 +119,7 @@ const Loan_Info = () => {
         const user = auth.currentUser;
         if (user) {
             try {
-                await storeUrl()
+                await storeUrl(user)
                 const document = doc(firestoredb, "account", user.uid)
 
                 function randomValue(min, max) {
