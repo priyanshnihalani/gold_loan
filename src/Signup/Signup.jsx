@@ -2,12 +2,12 @@ import './Signup.css';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth, provider } from '../firebase';
-import { createUserWithEmailAndPassword} from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { signInWithPopup } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { nameandphone } from '../Redux/formReducer';
 import { firestoredb } from '../firebase';
-import { collection, addDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 function Signup() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const navigate = useNavigate();
@@ -15,25 +15,36 @@ function Signup() {
 
     function onSubmit(data) {
         createUserWithEmailAndPassword(auth, data.email, data.password)
-        .then((credentials) => {
-            dispatch(nameandphone({fullname: data.fullname, phone:data.phone, email:data.email}))
-            navigate('/verify-email', {state: {user: credentials.user.uid}});
-        })
-        .catch((error) => {
-            if (error.code === 'auth/email-already-in-use') {
-                alert("User already exists with this email.");
-            } else {
-                alert("Something went wrong, please try again.");
-            }
-        });
+            .then((credentials) => {
+                dispatch(nameandphone({ fullname: data.fullname, phone: data.phone, email: data.email }))
+                navigate('/verify-email', { state: { user: credentials.user.uid } });
+            })
+            .catch((error) => {
+                if (error.code === 'auth/email-already-in-use') {
+                    alert("User already exists with this email.");
+                } else {
+                    alert("Something went wrong, please try again.");
+                }
+            });
     }
     function handleLogin() {
-        signInWithPopup(auth, provider).then(() => navigate('/'))
+        signInWithPopup(auth, provider).then(async (users) => {
+            const profile = doc(firestoredb, "users", users.user.uid);
+            let collection = {
+                "profile": {
+                    "fullname": users.user.displayName,
+                    "phone": users.user.phoneNumber,
+                    "email": users.user.email
+                }
+            }
+            await setDoc(profile, collection, {merge: true})
+            navigate('/')
+        })
             .catch((error) => {
-                
+
                 console.error(error);
             })
-    }   
+    }
     return (
         <>
             <div className=" py-5 bg-gray-100  min-h-screen bg-cover md:flex md:flex-col justify-center space-y-10">
@@ -70,10 +81,12 @@ function Signup() {
                             <div className='md:flex md:space-x-5 space-y-3 md:space-y-0 items-center justify-center'>
                                 <div className=" w-full flex flex-col items-start space-y-1">
                                     <label htmlFor="phoneNumber">Phone Number </label>
-                                    <input type="tel" id="phoneNumber" className="border rounded-md w-full py-2 pl-3" {...register('phone', {required: 'Phone Number Required', pattern:{
-                                        value: /^[0-9]{10}$/, 
-                                        message: 'Please enter a valid 10-digit phone number' 
-                                    } })} />
+                                    <input type="tel" id="phoneNumber" className="border rounded-md w-full py-2 pl-3" {...register('phone', {
+                                        required: 'Phone Number Required', pattern: {
+                                            value: /^[0-9]{10}$/,
+                                            message: 'Please enter a valid 10-digit phone number'
+                                        }
+                                    })} />
                                     {errors.phone && <p className='text-red-500'>{errors.phone.message}</p>}
                                 </div>
                                 <div className="w-full flex-col justify-start items-start space-y-1">
