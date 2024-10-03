@@ -158,7 +158,7 @@ function Gold_info() {
     if (file) {
       const options = {
         maxSizeKb: 300,
-        maxWidthOrHeight: 1920,
+        maxWidthOrHeight: 600,
         useWebWorker: true
       };
 

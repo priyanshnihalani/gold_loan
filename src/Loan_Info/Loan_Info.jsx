@@ -93,33 +93,32 @@ const Loan_Info = () => {
     }, [form2Data, goldPrice, caratPrice, eligibleAmount, interest]);
 
 
-    async function storeUrl(user){
-        try{
+    // async function storeUrl(user){
+    //     try{
 
-            const imageUrls = []
-            for (const item of form2Data) {
-                const storageRef = ref(storage, `${user.uid}/'images'/`)
-                const uploadTask = await uploadBytes(storageRef, item.image);
-                const url = await getDownloadURL(uploadTask);
-                imageUrls.push(url)
-            }
-            imageUrls.map((item) => {
-                const url = item
-                setFinalData(prev => prev.map((item) => {
-                    return item.image = url;
-                }))
-            })
-        }
-        catch(error){
-            console.log(error)
-        }
-    }
+    //         const imageUrls = []
+    //         for (const item of form2Data) {
+    //             const storageRef = ref(storage, `${user.uid}/'images'/`)
+    //             const uploadTask = await uploadBytes(storageRef, item.image);
+    //             const url = await getDownloadURL(uploadTask);
+    //             imageUrls.push(url)
+    //         }
+    //         imageUrls.map((item) => {
+    //             const url = item
+    //             setFinalData(prev => prev.map((item) => {
+    //                 return item.image = url;
+    //             }))
+    //         })
+    //     }
+    //     catch(error){
+    //         console.log(error)
+    //     }
+    // }
     async function handleApply(e) {
         e.preventDefault();
         const user = auth.currentUser;
         if (user) {
             try {
-                await storeUrl(user)
                 const document = doc(firestoredb, "account", user.uid)
 
                 function randomValue(min, max) {
