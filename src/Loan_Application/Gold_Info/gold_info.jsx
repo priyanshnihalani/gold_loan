@@ -317,13 +317,14 @@ function handleImageChange(e, index) {
       if (item.itemWeight === '') {
         newGoldError[index].itemWeight = true;
       }
+      setGoldError(newGoldError)
       if (item.image !== '' && item.itemCarat !== '' && item.itemName !== '' && item.itemWeight !== '') {
         console.log("navigate")
         newGoldError[index].image = false;
         newGoldError[index].itemCarat = false;
         newGoldError[index].itemWeight = false;
         newGoldError[index].itemName = false;
-
+        setGoldError(newGoldError)
         dispatch(goldinfo(goldInfo))
 
         auth.onAuthStateChanged(async (user) => {
