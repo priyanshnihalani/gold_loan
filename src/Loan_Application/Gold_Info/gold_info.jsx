@@ -12,7 +12,6 @@ import { useNavigate } from "react-router";
 import { auth, firestoredb } from "../../firebase.js";
 import { doc, setDoc } from "firebase/firestore";
 
-
 function Gold_info() {
 
   const navigate = useNavigate()
@@ -158,7 +157,7 @@ function Gold_info() {
 
     if (file) {
       const options = {
-        maxSizeMB: 1,
+        maxSizeKb: 300,
         maxWidthOrHeight: 1920,
         useWebWorker: true
       };
@@ -340,9 +339,9 @@ function Gold_info() {
     
       setGoldError(newGoldError);
     
-      // If there are any errors, stop execution
+
       if (hasError) {
-        return; // Stop submission
+        return; 
       }
     
       // Continue with Firestore logic if there are no errors

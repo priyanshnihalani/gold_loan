@@ -4,10 +4,11 @@ import Footer from '../Footer/Footer';
 import './Loan_Info.css';
 import goldApi from '../goldApi.json';
 import Header from '../Header/Header';
-import { auth, firestoredb } from '../firebase';
+import { auth, firestoredb, storage } from '../firebase';
 import { useNavigate } from 'react-router';
 import emailjs from 'emailjs-com'
 import { setDoc, doc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const Loan_Info = () => {
 
@@ -91,13 +92,22 @@ const Loan_Info = () => {
         setFinalData(updatedData);
     }, [form2Data, goldPrice, caratPrice, eligibleAmount, interest]);
 
-    
+
+
     async function handleApply(e) {
         e.preventDefault();
         const user = auth.currentUser;
         if (user) {
             try {
+                // const imageUrls = []
+                // for (const item of form2Data) {
+                //     const storageRef = ref(storage, `${user.uid}/'images'/`)
+                //     const uploadTask = await uploadBytes(storageRef, item.image);
+                //     const url = await getDownloadURL(uploadTask);
+                //     imageUrls.push(url)
+                // }
                 const document = doc(firestoredb, "account", user.uid)
+
                 function randomValue(min, max) {
                     return Math.round(Math.random() * (max - min + 1) + min);
                 }
