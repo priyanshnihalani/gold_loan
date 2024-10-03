@@ -153,32 +153,32 @@ function Gold_info() {
   console.log(eligibleValue)
 
 
-function handleImageChange(e, index) {
+  function handleImageChange(e, index) {
     const file = e.target.files[0];
 
     if (file) {
-        const options = {
-            maxSizeMB: 1,  
-            maxWidthOrHeight: 1920,  
-            useWebWorker: true  
-        };
-        
-        imageCompression(file, options)
-            .then((compressedFile) => {
-                const reader = new FileReader();
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true
+      };
 
-                reader.readAsDataURL(compressedFile);
-                reader.onloadend = () => {
-                    const newItems = [...goldInfo];
-                    newItems[index].image = reader.result.toString();
-                    setGoldInfo(newItems);
-                };
-            })
-            .catch((error) => {
-                console.error('Error compressing the image:', error);
-            });
+      imageCompression(file, options)
+        .then((compressedFile) => {
+          const reader = new FileReader();
+
+          reader.readAsDataURL(compressedFile);
+          reader.onloadend = () => {
+            const newItems = [...goldInfo];
+            newItems[index].image = reader.result.toString();
+            setGoldInfo(newItems);
+          };
+        })
+        .catch((error) => {
+          console.error('Error compressing the image:', error);
+        });
     }
-}
+  }
 
   const jewelleryCard = (index) => (
     <div className="md:w-[80%] xl:w-1/2 md:mx-auto flex flex-col text-xs space-y-4 shadow px-4 py-4 rounded ">
@@ -302,54 +302,73 @@ function handleImageChange(e, index) {
   function handleSubmit(e) {
     e.preventDefault()
 
-    const newGoldError = [...goldError];
+      const newGoldError = goldError.map(error => ({ ...error }));
+      let hasError = false; 
+    
+      
+      goldInfo.forEach((item, index) => {
+        if (!item.image) {
+          newGoldError[index].image = true; 
+          hasError = true; 
+        } else {
+          newGoldError[index].image = false;
+        }
+    
+        if (!item.itemName) {
+          newGoldError[index].itemName = true; 
+          hasError = true; 
+        } else {
+          newGoldError[index].itemName = false; 
+        }
+    
 
-    goldInfo.map((item, index) => {
-      if (item.image === '') {
-        newGoldError[index].image = true;
+        if (!item.itemCarat) {
+          newGoldError[index].itemCarat = true; 
+          hasError = true; 
+        } else {
+          newGoldError[index].itemCarat = false; 
+        }
+    
+        // Check if the item weight is empty
+        if (!item.itemWeight) {
+          newGoldError[index].itemWeight = true; 
+          hasError = true; // Mark as error
+        } else {
+          newGoldError[index].itemWeight = false; 
+        }
+      });
+    
+      setGoldError(newGoldError);
+    
+      // If there are any errors, stop execution
+      if (hasError) {
+        return; // Stop submission
       }
-      if (item.itemCarat === '') {
-        newGoldError[index].itemCarat = true;
-      }
-      if (item.itemName === '') {
-        newGoldError[index].itemName = true;
-      }
-      if (item.itemWeight === '') {
-        newGoldError[index].itemWeight = true;
-      }
-      setGoldError(newGoldError)
-      if (item.image !== '' && item.itemCarat !== '' && item.itemName !== '' && item.itemWeight !== '') {
-        console.log("navigate")
-        newGoldError[index].image = false;
-        newGoldError[index].itemCarat = false;
-        newGoldError[index].itemWeight = false;
-        newGoldError[index].itemName = false;
-        setGoldError(newGoldError)
-        dispatch(goldinfo(goldInfo))
-
-        auth.onAuthStateChanged(async (user) => {
-          if (user) {
-            goldInfo.map(async (item, index) => {
-              try {
-                const goldInfoDoc = doc(firestoredb, "users", user.uid);
-                const collection = {
-                  'gold_info': {
-                    [`${index}`]: item
-                  }
+    
+      // Continue with Firestore logic if there are no errors
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const promises = goldInfo.map(async (item, index) => {
+            try {
+              const goldInfoDoc = doc(firestoredb, "users", user.uid);
+              const collection = {
+                'gold_info': {
+                  [`${index}`]: item
                 }
-                await setDoc(goldInfoDoc, collection, {merge: true});
-
-                navigate('/loan_info');
-              } catch (error) {
-                console.log(error);
-              }
-            });
-          }
-        });
-      }
-    })
-    setGoldError(newGoldError)
-  }
+              };
+              await setDoc(goldInfoDoc, collection, { merge: true });
+              dispatch(goldinfo(goldInfo));
+            } catch (error) {
+              console.error("Error saving to Firestore:", error);
+            }
+          });
+    
+          await Promise.all(promises); // Wait for all Firestore writes to finish
+          navigate('/loan_info'); // Navigate after successful submission
+        }
+      });
+    }
+    
 
   return (
     <>
