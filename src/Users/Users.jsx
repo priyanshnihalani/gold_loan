@@ -52,24 +52,8 @@ function Users() {
     let lastEmiDate = userData.loan_info?.lastEmiDate?.toDate();
     const currentDate = new Date();
 
-    if (!lastEmiDate) {
-      async function setLastDate() {
-        try {
-          const docRef = doc(firestoredb, "users", id);
-          await setDoc(docRef, {
-            ...userData,
-            loan_info: {
-              ...userData.loan_info,
-              lastEmiDate: new Date()
-            }
-          }, { merge: true });
-        } catch (error) {
-          console.error("Error updating Firestore:", error);
-        }
-      }
-      setLastDate()
-    }
-    else {
+    if (lastEmiDate) {
+
       async function checkEmi() {
 
         const monthsPassed = calculateMonthsPassed(lastEmiDate, currentDate);
@@ -81,8 +65,9 @@ function Users() {
           alert("Loan Paid Successfully!")
         }
       }
-      checkEmi
+      checkEmi()
     }
+
 
   }, [emi, userData, remainEmi]);
 
@@ -194,8 +179,8 @@ function Users() {
   }
 
   return (
-    <div className="w-full min-h-screen flex flex-col lg:flex-row justify-between bg-gray-50 py-8 md:pb-80 lg:py-8 px-4 lg:px-20 lg:space-x-5">
-      <div className="w-full lg:w-[40%] bg-white shadow-lg rounded-lg p-6 flex flex-col border border-gray-200 mb-0 lg:mb-0">
+    <div className={`w-full min-h-screen flex flex-col lg:flex-row ${userData.loan_info ? 'justify-between' : 'justify-center'} bg-gray-50 py-8 md:pb-80 lg:py-8 px-4 lg:px-20 lg:space-x-5`}>
+      <div className={`w-full ${userData.loan_info ? 'h-full' : 'h-1/2'}  lg:w-[40%] bg-white shadow-lg rounded-lg p-6 flex flex-col border border-gray-200 mb-0 lg:mb-0`}>
         {/* Profile Section */}
         <div className="flex flex-col items-center mb-4">
           {userData.profile && (
@@ -242,7 +227,7 @@ function Users() {
         </div>
 
         {/* Logout Button */}
-        <div className="mt-auto">
+        <div className="mt-20">
           <button
             onClick={logout}
             className="w-full p-3 bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 text-white font-bold text-lg rounded-md shadow-lg transform transition-transform duration-200 hover:scale-105">
@@ -251,43 +236,48 @@ function Users() {
         </div>
       </div>
 
-      <div className="my-20 lg:my-0 flex flex-col min-h-[400px] overflow-auto px-2 w-full lg:w-[60%] space-y-6 scroller">
-        <h1 className='font-bold text-3xl m-0 text-gray-800'>Ornament Information</h1>
+      {
+        userData.loan_info ?
 
-       
-         {Object.keys(ornaments).map((item) => {
-          const ornament = userData.loan_info.ornaments[item];
-          return (
-            <div
-              key={item}
-              className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 items-center bg-white shadow-md hover:shadow-lg transition-shadow p-4 rounded-lg"
-            >
-              <div className="w-32 h-32 sm:w-44 sm:h-44 flex-shrink-0">
-                <img src={ornament.image} alt="Ornament" className="w-full h-full object-cover rounded-md" />
-              </div>
 
-              <div className="text-center sm:text-left">
-                <p className="text-lg font-semibold text-gray-700">Ornament Name:
-                  <span className="font-bold ml-2 text-gray-900">{ornament.ornamentName}</span>
-                </p>
-                <p className="text-lg text-gray-700">Ornament Weight:
-                  <span className="font-semibold ml-2">{ornament.weight} g</span>
-                </p>
-                <p className="text-lg text-gray-700">Ornament Carats:
-                  <span className="font-semibold ml-2">{ornament.carats}</span>
-                </p>
-                <p className="text-lg text-gray-700">Amount You Have Get For Ornament:
-                  <span className="text-green-500 font-bold ml-2">₹ {ornament.eligibleAmount}</span>
-                </p>
-                <p className="text-lg text-gray-700">Interest You Have To Pay For This:
-                  <span className="text-red-500 font-bold ml-2">₹ {ornament.interest}</span>
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+          <div className="my-20 lg:my-0 flex flex-col min-h-[400px] overflow-auto px-2 w-full lg:w-[60%] space-y-6 scroller">
+            <h1 className='font-bold text-3xl m-0 text-gray-800'>Ornament Information</h1>
 
+
+            {Object.keys(ornaments).map((item) => {
+              const ornament = userData.loan_info.ornaments[item];
+              return (
+                <div
+                  key={item}
+                  className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 items-center bg-white shadow-md hover:shadow-lg transition-shadow p-4 rounded-lg"
+                >
+                  <div className="w-32 h-32 sm:w-44 sm:h-44 flex-shrink-0">
+                    <img src={ornament.image} alt="Ornament" className="w-full h-full object-cover rounded-md" />
+                  </div>
+
+                  <div className="text-center sm:text-left">
+                    <p className="text-lg font-semibold text-gray-700">Ornament Name:
+                      <span className="font-bold ml-2 text-gray-900">{ornament.ornamentName}</span>
+                    </p>
+                    <p className="text-lg text-gray-700">Ornament Weight:
+                      <span className="font-semibold ml-2">{ornament.weight} g</span>
+                    </p>
+                    <p className="text-lg text-gray-700">Ornament Carats:
+                      <span className="font-semibold ml-2">{ornament.carats}</span>
+                    </p>
+                    <p className="text-lg text-gray-700">Amount You Have Get For Ornament:
+                      <span className="text-green-500 font-bold ml-2">₹ {ornament.eligibleAmount}</span>
+                    </p>
+                    <p className="text-lg text-gray-700">Interest You Have To Pay For This:
+                      <span className="text-red-500 font-bold ml-2">₹ {ornament.interest}</span>
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          : <></>
+      }
     </div>
   );
 }

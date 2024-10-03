@@ -118,7 +118,7 @@ function Home() {
     console.log(accountData)
     function handleApply() {
         if (userId) {
-            if (!data) {
+            if (!data.loan_info || !data.personal_info) {
                 navigate('/personal_info')
             }
             else {

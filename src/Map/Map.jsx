@@ -10,10 +10,10 @@ import locationIcon from '/location.png'; // Custom icon
 const customMarkerIcon = new LeafLet.Icon({
   iconUrl: locationIcon,
   iconRetinaUrl: locationIcon,
-  iconSize: [38, 38], // Adjust the size of your icon as needed
-  iconAnchor: [22, 38], // Position of the icon's anchor (tail of the marker)
-  popupAnchor: [-3, -38], // Position of the popup relative to the icon
-  shadowUrl: null, // If you don't want a shadow, set this to null
+  iconSize: [38, 38], 
+  iconAnchor: [22, 38], 
+  popupAnchor: [-3, -38], 
+  shadowUrl: null, 
   shadowSize: null,
   shadowAnchor: null,
 });
