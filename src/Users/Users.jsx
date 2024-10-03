@@ -11,7 +11,7 @@ function Users() {
   const navigate = useNavigate();
   const [ornaments, setOrnaments] = useState([]);
 
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({});
   const [emi, setEmi] = useState(0);
   const [remainEmi, setRemainEmi] = useState(0)
 
@@ -47,27 +47,27 @@ function Users() {
   }, [userData]);
 
   useEffect(() => {
-    if (!userData) return;
-
-    let lastEmiDate = userData.loan_info?.lastEmiDate?.toDate();
-    const currentDate = new Date();
-
-    if (lastEmiDate) {
-
-      async function checkEmi() {
-
-        const monthsPassed = calculateMonthsPassed(lastEmiDate, currentDate);
-
-        if (monthsPassed > 0 && remainEmi > 0) {
-          updateFirestore(monthsPassed);
-        }
-        if (remainEmi <= 0) {
-          alert("Loan Paid Successfully!")
-        }
-      }
-      checkEmi()
+    if (!userData.hasOwnProperty('loan_info')) {
+      return
     }
+    else {
+      let lastEmiDate = userData.loan_info?.lastEmiDate?.toDate();
+      const currentDate = new Date();
 
+      if (lastEmiDate) {
+
+        async function checkEmi() {
+
+          const monthsPassed = calculateMonthsPassed(lastEmiDate, currentDate);
+
+          if (monthsPassed > 0 && remainEmi > 0) {
+            await updateFirestore(monthsPassed);
+          }
+        }
+        checkEmi()
+      }
+
+    }
 
   }, [emi, userData, remainEmi]);
 
@@ -101,6 +101,11 @@ function Users() {
           lastEmiDate: new Date()
         }
       }, { merge: true });
+
+      if (remainEmi <= 0) {
+        alert('loan pain successfully')
+      }
+
     } catch (error) {
       console.error("Error updating Firestore:", error);
     }
