@@ -14,28 +14,31 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 
 function Home() {
     const navigate = useNavigate();
-    const [first, setfirst] = useState(false)
-    const [data, setData] = useState(null)
-    const [display, setDisplay] = useState(false)
-    const [userId, setUserId] = useState(null)
-    const [accountData, setAccountData] = useState(null)
+    const [first, setFirst] = useState(false);
+    const [data, setData] = useState({});
+    const [display, setDisplay] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const [accountData, setAccountData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [startCount, setStartCount] = useState(false);
+    const customerRef = useRef(null);
 
-    async function fetchData(collection, uid, setData) {
+    // Function to fetch data from Firestore
+    const fetchData = async (collection, uid, setData) => {
         const docRef = doc(firestoredb, collection, uid);
         try {
             const docSnap = await getDoc(docRef);
-            setData(docSnap.data())
+            if (docSnap.exists()) {
+                setData(docSnap.data());
+            } else {
+                console.log("No such document!");
+            }
+        } catch (error) {
+            console.error("Error fetching document:", error);
         }
-        catch (error) {
-            console.log(error)
-        }
-    }
+    };
 
-    const [startCount, setStartCount] = useState(false);
-
-    // Ref for customer section
-    const customerRef = useRef(null);
-
+    // Scroll event handling
     useEffect(() => {
         const handleScroll = () => {
             const elements = document.querySelectorAll('.scroll-animate');
@@ -46,7 +49,7 @@ function Home() {
                 }
             });
 
-            // Specific check for customer section to start CountUp
+            // Check for customer section visibility
             if (customerRef.current) {
                 const customerRect = customerRef.current.getBoundingClientRect();
                 if (customerRect.top <= window.innerHeight && customerRect.bottom >= 0) {
@@ -56,86 +59,152 @@ function Home() {
         };
 
         window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [auth]);
-
-
+    // Fetch user data on auth state change
     useEffect(() => {
-        auth.onAuthStateChanged((user) => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
-                setUserId(user.uid)
-                fetchData('users', user.uid, setData)
+                setUserId(user.uid);
+                await fetchData('users', user.uid, setData);
+                setLoading(false);
+            } else {
+                setLoading(false);
             }
-        })
-    }, [])
+        });
+        return () => unsubscribe();
+    }, []);
 
-    function calculateMonthsPassed(lastSalaryDate, currentDate) {
-
+    const calculateMonthsPassed = (lastSalaryDate, currentDate) => {
         const lastSalaryYear = lastSalaryDate.getFullYear();
         const lastSalaryMonth = lastSalaryDate.getMonth() + 1;
         const currentYear = currentDate.getFullYear();
         const currentMonth = currentDate.getMonth() + 1;
 
-        const monthsPassed = (currentYear - lastSalaryYear) * 12 + (currentMonth - lastSalaryMonth);
+        return (currentYear - lastSalaryYear) * 12 + (currentMonth - lastSalaryMonth);
+    };
 
-        return monthsPassed;
-
-    }
-
+    // Fetch account data based on userId
     useEffect(() => {
         if (userId) {
-            fetchData('account', userId, setAccountData)
-            async function setData() {
-                if (accountData) {
-                    const lastSalaryDate = accountData.lastSalaryDate?.toDate()
-                    if (!lastSalaryDate) {
-                        const docRef = doc(firestoredb, 'account', userId);
-                        await setDoc(docRef, {
-                            ...accountData,
-                            lastSalaryDate: new Date()
-                        });
-                    }
-                    else {
-                        const balance = Number(accountData.Balance);
-                        const salary = Number(accountData.salary);
+            fetchData('account', userId, setAccountData);
+        }
+    }, [userId]);
 
-                        const monthsPassed = calculateMonthsPassed(lastSalaryDate, new Date());
-                        const docRef = doc(firestoredb, 'account', userId);
-                        await setDoc(docRef, {
-                            ...accountData,
-                            Balance: Number(balance + (salary * monthsPassed)).toFixed(2),
-                            lastSalaryDate: new Date()
-                        });
-                    }
+    // Update account data when accountData is available
+    useEffect(() => {
+        const updateAccountData = async () => {
+            if (accountData) {
+                const lastSalaryDate = accountData.lastSalaryDate?.toDate();
+                const docRef = doc(firestoredb, 'account', userId);
+                if (!lastSalaryDate) {
+                    await setDoc(docRef, {
+                        ...accountData,
+                        lastSalaryDate: new Date()
+                    });
+                } else {
+                    const balance = Number(accountData.Balance);
+                    const salary = Number(accountData.salary);
+                    const monthsPassed = calculateMonthsPassed(lastSalaryDate, new Date());
+                    await setDoc(docRef, {
+                        ...accountData,
+                        Balance: Number(balance + (salary * monthsPassed)).toFixed(2),
+                        lastSalaryDate: new Date()
+                    });
                 }
             }
-            setData()
-        }
-    }, [data, userId])
-    console.log(accountData)
-    function handleApply() {
+        };
+        updateAccountData();
+    }, [accountData, userId]);
+
+    console.log(accountData);
+
+    const handleApply = () => {
         if (userId) {
-            if (!data.loan_info || !data.personal_info) {
-                navigate('/personal_info')
-            }
-            else {
-                let remainingEmi = Number(data.loan_info.remainEmi)
-                console.log(remainingEmi)
+            if (!data.hasOwnProperty('loan_info')) {
+                navigate('/personal_info');
+            } else {
+                let remainingEmi = Number(data.loan_info.remainEmi);
+                console.log(remainingEmi);
                 if (remainingEmi > 0) {
-                    setDisplay(true)
+                    setDisplay(true);
                 }
             }
+        } else {
+            navigate('/sign_in');
         }
-        else {
-            navigate('/sign_in')
-        }
-    }
+    };
 
-    function visiblity() {
-        setfirst(!first)
+    const visibility = () => {
+        setFirst(!first);
+    };
+
+    if (loading) {
+        return (
+            <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 100 100"
+          width="200"
+          height="200"
+          style={{
+            display: 'block',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <defs>
+            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style={{ stopColor: '#FFD700', stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: '#FFA500', stopOpacity: 1 }} />
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <style>
+            {`
+              @keyframes rotateRing {
+                0%, 100% { transform: rotate(0deg) translateX(0); }
+                50% { transform: rotate(180deg) translateX(-15px); }
+              }
+              @keyframes rotateBangle {
+                0%, 100% { transform: rotate(0deg) translateX(0); }
+                50% { transform: rotate(-180deg) translateX(15px); }
+              }
+              .jewelry {
+                filter: url(#glow);
+              }
+              #ring {
+                animation: rotateRing 4s ease-in-out infinite;
+                transform-origin: center;
+              }
+              #bangle {
+                animation: rotateBangle 4s ease-in-out infinite;
+                transform-origin: center;
+              }
+            `}
+          </style>
+
+          <g id="ring" className="jewelry">
+            <circle cx="50" cy="50" r="20" fill="none" stroke="url(#goldGradient)" strokeWidth="4" />
+            <circle cx="50" cy="35" r="5" fill="url(#goldGradient)" />
+          </g>
+
+          <g id="bangle" className="jewelry">
+            <circle cx="50" cy="50" r="25" fill="none" stroke="url(#goldGradient)" strokeWidth="6" />
+          </g>
+        </svg>
+      </>
+        );
     }
 
     return (
@@ -161,7 +230,7 @@ function Home() {
                                             </button>
                                         </div>
                                         <div>
-                                            <button onClick={visiblity} className="bg-gray-800 text-white px-8 py-3 rounded-lg shadow-lg transition-colors duration-300 hover:bg-gray-700">
+                                            <button onClick={visibility} className="bg-gray-800 text-white px-8 py-3 rounded-lg shadow-lg transition-colors duration-300 hover:bg-gray-700">
                                                 Get a Quote
                                             </button>
                                         </div>
@@ -257,68 +326,68 @@ function Home() {
                         </div>
                     </section>
                     <section id="customer" className="py-16 my-20 md:mb-30 scroll-animate mx-auto px-4" ref={customerRef}>
-            <div className="flex flex-col items-center space-y-16 lg:flex-row lg:justify-center lg:space-y-0 lg:space-x-10 xl:space-x-20">
-                {/* Growth Section */}
-                <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
-                    <div className="mb-6 lg:mb-0">
-                        <div className="flex items-center justify-center">
-                            <div className="p-10 sm:p-12 lg:px-12 lg:py-2 border-b">
-                                {startCount && (
-                                    <CountUp
-                                        start={0}
-                                        end={65}
-                                        duration={2}
-                                        suffix="%"
-                                        className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
-                                    />
-                                )}
+                        <div className="flex flex-col items-center space-y-16 lg:flex-row lg:justify-center lg:space-y-0 lg:space-x-10 xl:space-x-20">
+                            {/* Growth Section */}
+                            <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
+                                <div className="mb-6 lg:mb-0">
+                                    <div className="flex items-center justify-center">
+                                        <div className="p-10 sm:p-12 lg:px-12 lg:py-2 border-b">
+                                            {startCount && (
+                                                <CountUp
+                                                    start={0}
+                                                    end={65}
+                                                    duration={2}
+                                                    suffix="%"
+                                                    className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Growth</h1>
                             </div>
-                        </div>
-                    </div>
-                    <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Growth</h1>
-                </div>
 
-                {/* Happy Clients Section */}
-                <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
-                    <div className="mb-6 lg:mb-0">
-                        <div className="flex items-center justify-center">
-                            <div className="px-12 py-2 border-b">
-                                {startCount && (
-                                    <CountUp
-                                        start={0}
-                                        end={1000}
-                                        suffix="+"
-                                        duration={2}
-                                        className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
-                                    />
-                                )}
+                            {/* Happy Clients Section */}
+                            <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
+                                <div className="mb-6 lg:mb-0">
+                                    <div className="flex items-center justify-center">
+                                        <div className="px-12 py-2 border-b">
+                                            {startCount && (
+                                                <CountUp
+                                                    start={0}
+                                                    end={1000}
+                                                    suffix="+"
+                                                    duration={2}
+                                                    className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Happy Clients</h1>
                             </div>
-                        </div>
-                    </div>
-                    <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Happy Clients</h1>
-                </div>
 
-                {/* Star Ratings Section */}
-                <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
-                    <div className="mb-6 lg:mb-0">
-                        <div className="flex items-center justify-center">
-                            <div className="px-14 py-2 border-b">
-                                {startCount && (
-                                    <CountUp
-                                        start={0}
-                                        end={4.8}
-                                        duration={2}
-                                        decimals={1}
-                                        className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
-                                    />
-                                )}
+                            {/* Star Ratings Section */}
+                            <div className="text-center max-w-xs md:max-w-sm lg:max-w-none">
+                                <div className="mb-6 lg:mb-0">
+                                    <div className="flex items-center justify-center">
+                                        <div className="px-14 py-2 border-b">
+                                            {startCount && (
+                                                <CountUp
+                                                    start={0}
+                                                    end={4.8}
+                                                    duration={2}
+                                                    decimals={1}
+                                                    className="font-extrabold text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Ratings</h1>
                             </div>
                         </div>
-                    </div>
-                    <h1 className="font-bold mt-10 lg:mt-6 text-xl lg:text-2xl text-gray-800">Ratings</h1>
-                </div>
-            </div>
-        </section>
+                    </section>
 
                     <section id="howitworks" className="scroll-animate bg-white py-16 px-5 lg:px-20">
 
