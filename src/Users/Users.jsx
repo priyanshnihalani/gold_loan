@@ -14,6 +14,7 @@ function Users() {
   const [userData, setUserData] = useState({});
   const [emi, setEmi] = useState(0);
   const [remainEmi, setRemainEmi] = useState(0)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchUserData() {
@@ -22,6 +23,7 @@ function Users() {
       try {
         const docSnap = await getDoc(docRef);
         setUserData(docSnap.data());
+        setLoading(false)
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -116,7 +118,7 @@ function Users() {
     navigate('/', { state: { data: false } });
   };
 
-  if (!userData) {
+  if (loading) {
     return (
       <>
         <svg
