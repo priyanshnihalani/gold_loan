@@ -32,7 +32,7 @@ function Users() {
   }, [id]);
 
   useEffect(() => {
-    if (userData?.personal_Info && userData?.loan_info) {
+    if (userData?.loan_info && userData?.loan_info.status.loanStatus == "approved...") {
       const months = Number(userData.personal_Info.loanperiod) || 0;
       const interestAmount = Number(userData.loan_info.TotalAmountInterest?.TotalInterest) || 0;
       const totalAmount = Number(userData.loan_info.TotalAmountInterest?.TotalAmount) || 0;
