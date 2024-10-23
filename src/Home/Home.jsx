@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faDollarSign, faEye } from "@fortawesome/free-solid-svg-icons";
 import { auth, firestoredb } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import ContactForm from "../ContactForm/ContactForm";
 
 
 function Home() {
@@ -443,7 +444,7 @@ function Home() {
 
 
                     <section id="contact" className="py-16 bg-gradient-to-t  from-white to-gray-100 scroll-animate flex flex-col lg:flex-row items-center justify-center px-5 lg:px-0">
-                        <form className=" flex justify-center lg:justify-end w-full lg:w-1/2 mt-10 lg:mt-20 lg:px-5">
+                        {/* <form className=" flex justify-center lg:justify-end w-full lg:w-1/2 mt-10 lg:mt-20 lg:px-5">
                             <div className="w-full md:w-3/4 lg:w-1/2 px-5 md:px-10 lg:px-0">
                                 <div className="space-y-4">
                                     <input
@@ -476,7 +477,8 @@ function Home() {
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                        </form> */}
+                        <ContactForm />
 
                         <div className="mt-32 md:mt-10 lg:mt-0 w-full lg:w-1/2 space-y-7 lg:pl-10 lg:py-20 text-center lg:text-left">
                             <div className="flex flex-col lg:flex-row items-center lg:items-start space-x-0 lg:space-x-5 space-y-5 lg:space-y-0">

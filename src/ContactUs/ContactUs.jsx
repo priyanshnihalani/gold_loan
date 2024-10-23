@@ -2,6 +2,7 @@ import { FaClock, FaEnvelope, FaLocationArrow, FaMobile, FaUser, FaPhone } from 
 import LeafletMapComponent from "../Map/Map";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import ContactForm from "../ContactForm/ContactForm";
 
 function ContactUs() {
     return (
@@ -46,54 +47,7 @@ function ContactUs() {
             {/* Contact Form and Information Section */}
             <section id="contact" className="py-16 bg-gradient-to-t from-white to-gray-100 flex flex-col lg:flex-row items-center justify-center px-5 lg:px-0 ">
                 {/* Form */}
-                <form className="flex justify-center lg:justify-end w-full lg:w-1/2 mt-10 lg:mt-20 lg:px-5">
-                    <div className="w-full md:w-3/4 lg:w-1/2 px-5 md:px-10 lg:px-0">
-                        <div className="space-y-4">
-                            {/* Name Field */}
-                            <div className="relative">
-                                <FaUser className="absolute top-3 left-3 text-gray-400" />
-                                <input
-                                    type="text"
-                                    name="name"
-                                    placeholder="Full Name"
-                                    className="w-full border p-3 pl-10 rounded-md bg-gray-100"
-                                />
-                            </div>
-                            {/* Email Field */}
-                            <div className="relative">
-                                <FaEnvelope className="absolute top-3 left-3 text-gray-400" />
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="Email"
-                                    className="w-full border p-3 pl-10 rounded-md bg-gray-100"
-                                />
-                            </div>
-                            {/* Phone Field */}
-                            <div className="relative">
-                                <FaPhone className="absolute top-3 left-3 text-gray-400" />
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    placeholder="Phone"
-                                    className="w-full border p-3 pl-10 rounded-md bg-gray-100"
-                                />
-                            </div>
-                            {/* Message Field */}
-                            <textarea
-                                name="message"
-                                id="message"
-                                rows={4}
-                                className="w-full rounded-md border bg-gray-100 p-3"
-                                placeholder="Message"
-                            />
-                            {/* Submit Button */}
-                            <button className="py-3 px-5 bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 text-white font-bold text-lg rounded-md shadow-lg transform transition-transform duration-200 hover:scale-105">
-                                Submit
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                <ContactForm />
 
                 {/* Contact Information */}
                 <div className="mt-32 md:mt-10 lg:mt-0 w-full lg:w-1/2 space-y-7 lg:pl-10 lg:py-20 text-center lg:text-left">

@@ -24,6 +24,7 @@ const Loan_Info = () => {
     const [grandTotal, setGrandTotal] = useState(0)
     const [grandInterest, setGrandInterest] = useState(0)
     const [finalData, setFinalData] = useState([])
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -96,8 +97,9 @@ const Loan_Info = () => {
 
     async function handleApply(e) {
         e.preventDefault();
+        setLoading(true)
         const user = auth.currentUser;
-        if (user) {
+        if (user && grandTotal > 0) {
             try {
                 const document = doc(firestoredb, "account", user.uid)
 
@@ -162,6 +164,7 @@ const Loan_Info = () => {
                 await emailjs.send('service_6ua5b5v', 'template_295do08', templateForm, 'B8P7nWodrCWRWJC27')
                     .then(() => {
                         navigate('/');
+                        setLoading(false)
                     })
                     .catch((error) => {
                         alert("Error sending email:", error);
@@ -261,7 +264,10 @@ const Loan_Info = () => {
                                             ₹ {grandInterest}
                                         </p>
                                     </div>
-                                    <button className='w-full mt-2 mb-4 border-2 rounded border-yellow-500 p-3  text-black font-bold ' onClick={handleApply}>Apply For Loan</button>
+                                    <button className='w-full mt-2 mb-4 border-2 rounded border-yellow-500 p-3  text-black font-bold ' onClick={handleApply}>
+                                        {loading ?  <div className="loader mx-auto"></div> : <span>Apply For Loan</span>  }
+                                     
+                                        </button>
                                 </div>
                             </div>
                         </div>

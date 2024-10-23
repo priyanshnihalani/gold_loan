@@ -30,7 +30,6 @@ function EmailVerify() {
                 if (!sentEmail) {
                     await sendEmailVerification(user);
                     setSentEmail(true);
-                    alert("Email verification has been sent to your email!");
 
                     countRef.current = 0; 
                     const maxAttempts = 12;
@@ -40,7 +39,6 @@ function EmailVerify() {
                             .then(async () => {
                                 if (user.emailVerified) {
                                     clearInterval(intervalId);
-                                    alert("Email verified successfully! Redirecting to home page...");
                                     const profile = doc(firestoredb, "users", user.uid);
                                     let collection = {
                                         "profile":form1Data
