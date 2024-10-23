@@ -23,7 +23,12 @@ function ContactForm() {
                 }
             }
             else{
-                alert("Please login to submit the form")
+                Swal.fire({
+                    title: 'warning',
+                    text: 'Please Login To Contact Us',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                })
             }
         })
     }
