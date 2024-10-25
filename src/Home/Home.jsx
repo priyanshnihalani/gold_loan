@@ -123,7 +123,7 @@ function Home() {
 
     const handleApply = () => {
         if (userId) {
-            if (!data.loan_info.hasOwnProperty('status')) {
+            if (!data?.loan_info?.hasOwnProperty('status')) {
                 navigate('/personal_info');
             } else {
                 let remainingEmi = Number(data.loan_info.remainEmi);
