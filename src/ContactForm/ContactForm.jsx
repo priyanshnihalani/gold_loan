@@ -1,15 +1,28 @@
 import { useForm } from "react-hook-form"
 import { auth, firestoredb } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
+import { useState } from "react";
 function ContactForm() {
+    const [count, setcount] = useState(null)
     const { register, handleSubmit, formState: {errors} } = useForm();
     const onSubmit = async (data) => {
         auth.onAuthStateChanged(async (user) => {
             if (user) {
                 try{
+                    const countRef = doc(firestoredb, 'contact', 'count');
+                    const snapshot = await getDoc(countRef)
+                    if(snapshot.data() != undefined || snapshot.data() != null){
+                        const count = snapshot.data().count + 1
+                        setcount(count)
+                    }
+                    else{
+                        setcount(1)
+                    }
+
                     const docRef = doc(firestoredb, `contact/${user.uid}` )
-                    await setDoc(docRef,  data).then(() => {
+                    await setDoc(docRef,  data).then(async () => {
+                        await setDoc(countRef, {count: count})
                         Swal.fire({
                             title: 'Success',
                             text: 'Form Data Submitted Successfully',

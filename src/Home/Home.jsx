@@ -263,7 +263,7 @@ function Home() {
                         <div className="container mx-auto px-6 lg:px-12">
                             <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-12">Why Choose Us?</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                                <div className="bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-2xl p-1 pb-2">
+                                <div className=" bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-2xl p-1 pb-3">
                                     <div className="text-center p-8 bg-white rounded-xl shadow hover:shadow-2xl transition-shadow duration-300">
                                         <div className="flex justify-center">
                                             <div className="p-1 rounded-full mb-4 flex bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500">
@@ -277,7 +277,7 @@ function Home() {
                                     </div>
                                 </div>
 
-                                <div className="bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-2xl p-1 pb-2">
+                                <div className=" bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-2xl p-1 pb-3">
 
                                     <div className="text-center p-8 bg-white rounded-xl shadow borders hover:shadow-2xl transition-shadow duration-300">
                                         <div className="flex">
@@ -291,7 +291,7 @@ function Home() {
                                         <p className="text-gray-700">Enjoy low interest rates and flexible repayment options.</p>
                                     </div>
                                 </div>
-                                <div className="bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-2xl p-1 pb-2">
+                                <div className=" bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-2xl p-1 pb-3">
                                     <div className="text-center p-8 bg-white rounded-xl shadow borders hover:shadow-2xl transition-shadow duration-300">
                                         <div className="flex">
                                             <div className="mx-auto p-1 rounded-full mb-4 flex bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500">
