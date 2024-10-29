@@ -4,7 +4,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { useState } from "react";
 function ContactForm() {
-    const [count, setcount] = useState(0)
+    const [counter, setcounter] = useState(null)
     const { register, handleSubmit, formState: {errors} } = useForm();
     const onSubmit = async (data) => {
         auth.onAuthStateChanged(async (user) => {
@@ -13,16 +13,16 @@ function ContactForm() {
                     const countRef = doc(firestoredb, 'contact', 'count');
                     const snapshot = await getDoc(countRef)
                     if(snapshot.data() != undefined || snapshot.data() != null){
-                        const count = snapshot.data().count + 1
-                        setcount(count)
+                        const count = snapshot.data().count + 1 
+                        setcounter(count)
                     }
                     else{
-                        setcount(1)
+                        setcounter(1)
                     }
 
                     const docRef = doc(firestoredb, `contact/${user.uid}` )
                     await setDoc(docRef,  data).then(async () => {
-                        await setDoc(countRef, {count: count})
+                        await setDoc(countRef, {count: counter})
                         Swal.fire({
                             title: 'Success',
                             text: 'Form Data Submitted Successfully',
