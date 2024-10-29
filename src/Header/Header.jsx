@@ -52,10 +52,10 @@ function Header() {
 
                 <nav className={`relative top-8 left-0 w-full p-10 md:p-2 bg-white md:text-white md:static md:w-auto md:bg-transparent md:flex md:items-center md:justify-center md:space-x-20 lg:space-x-40 ${isOpen ? 'block' : 'hidden'} md:block `}>
                     <ul className="flex flex-col md:flex-row md:space-x-8 space-y-4 md:space-y-0 text-center md:text-left font-medium text-lg">
-                        <li><Link to="/" className="hover:text-pink-500">Home</Link></li>
-                        <li><Link to="/aboutus" className="hover:text-pink-500">About Us</Link></li>
-                        <li><Link to="/contactus" className="hover:text-pink-500">Contact Us</Link></li>
-                        <li><Link to="/privacy_policy" className="hover:text-pink-500">Privacy Policy</Link></li>
+                        <li><Link to="/" className="hover:text-yellow-500">Home</Link></li>
+                        <li><Link to="/aboutus" className="hover:text-yellow-500">About Us</Link></li>
+                        <li><Link to="/contactus" className="hover:text-yellow-500">Contact Us</Link></li>
+                        <li><Link to="/privacy_policy" className="hover:text-yellow-500">Privacy Policy</Link></li>
                     </ul>
                     {
                         userExist ? <button onClick={() => navigate('/users', {state: {userid: userId}})}><FontAwesomeIcon icon={faUserCircle} size='2x'/></button> :

@@ -144,35 +144,35 @@ function Home() {
     if (loading) {
         return (
             <>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 100 100"
-          width="200"
-          height="200"
-          style={{
-            display: 'block',
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-        >
-          <defs>
-            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style={{ stopColor: '#FFD700', stopOpacity: 1 }} />
-              <stop offset="100%" style={{ stopColor: '#FFA500', stopOpacity: 1 }} />
-            </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 100 100"
+                    width="200"
+                    height="200"
+                    style={{
+                        display: 'block',
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                    }}
+                >
+                    <defs>
+                        <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style={{ stopColor: '#FFD700', stopOpacity: 1 }} />
+                            <stop offset="100%" style={{ stopColor: '#FFA500', stopOpacity: 1 }} />
+                        </linearGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+                            <feMerge>
+                                <feMergeNode in="coloredBlur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
 
-          <style>
-            {`
+                    <style>
+                        {`
               @keyframes rotateRing {
                 0%, 100% { transform: rotate(0deg) translateX(0); }
                 50% { transform: rotate(180deg) translateX(-15px); }
@@ -193,18 +193,18 @@ function Home() {
                 transform-origin: center;
               }
             `}
-          </style>
+                    </style>
 
-          <g id="ring" className="jewelry">
-            <circle cx="50" cy="50" r="20" fill="none" stroke="url(#goldGradient)" strokeWidth="4" />
-            <circle cx="50" cy="35" r="5" fill="url(#goldGradient)" />
-          </g>
+                    <g id="ring" className="jewelry">
+                        <circle cx="50" cy="50" r="20" fill="none" stroke="url(#goldGradient)" strokeWidth="4" />
+                        <circle cx="50" cy="35" r="5" fill="url(#goldGradient)" />
+                    </g>
 
-          <g id="bangle" className="jewelry">
-            <circle cx="50" cy="50" r="25" fill="none" stroke="url(#goldGradient)" strokeWidth="6" />
-          </g>
-        </svg>
-      </>
+                    <g id="bangle" className="jewelry">
+                        <circle cx="50" cy="50" r="25" fill="none" stroke="url(#goldGradient)" strokeWidth="6" />
+                    </g>
+                </svg>
+            </>
         );
     }
 
@@ -261,47 +261,50 @@ function Home() {
 
                     <section id="key-benefits" className="py-16 bg-gradient-to-b from-white to-gray-100 scroll-animate">
                         <div className="container mx-auto px-6 lg:px-12">
-                            <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-12">Why Choose Us?</h2>
+                            <h2 className="text-4xl font-extrabold text-center text-yellow-800 mb-12">Why Choose Our Gold Loan?</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                                <div className=" bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-2xl p-1 pb-3">
+                                {/* Quick Approval */}
+                                <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-2xl p-1 pb-2">
                                     <div className="text-center p-8 bg-white rounded-xl shadow hover:shadow-2xl transition-shadow duration-300">
                                         <div className="flex justify-center">
                                             <div className="p-1 rounded-full mb-4 flex bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500">
-                                                <div className="w-12 h-12 flex justify-center items-center bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-full ">
+                                                <div className="w-12 h-12 flex justify-center items-center bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-full">
                                                     <FontAwesomeIcon icon={faClock} className="text-2xl mx-auto text-white" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <h3 className="text-2xl font-semibold text-gray-800 mb-4">Quick Approval</h3>
-                                        <p className="text-gray-700">Get your loan approved within minutes with minimal documentation.</p>
+                                        <h3 className="text-2xl font-semibold text-yellow-900 mb-4">Instant Approval</h3>
+                                        <p className="text-gray-800">Get your gold loan approved in minutes with minimal paperwork and quick processing.</p>
                                     </div>
                                 </div>
 
-                                <div className=" bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-2xl p-1 pb-3">
-
-                                    <div className="text-center p-8 bg-white rounded-xl shadow borders hover:shadow-2xl transition-shadow duration-300">
-                                        <div className="flex">
-                                            <div className="mx-auto p-1 rounded-full mb-4 flex bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500">
-                                                <div className="w-12 h-12 flex justify-center items-center bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-full ">
+                                {/* Low Interest Rates */}
+                                <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-2xl p-1 pb-2">
+                                    <div className="text-center p-8 bg-white rounded-xl shadow hover:shadow-2xl transition-shadow duration-300">
+                                        <div className="flex justify-center">
+                                            <div className="p-1 rounded-full mb-4 flex bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500">
+                                                <div className="w-12 h-12 flex justify-center items-center bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-full">
                                                     <FontAwesomeIcon icon={faDollarSign} className="text-2xl mx-auto text-white" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <h3 className="text-2xl font-semibold text-gray-800 mb-4">Low Interest Rates</h3>
-                                        <p className="text-gray-700">Enjoy low interest rates and flexible repayment options.</p>
+                                        <h3 className="text-2xl font-semibold text-yellow-900 mb-4">Competitive Rates</h3>
+                                        <p className="text-gray-800">Benefit from low interest rates and flexible repayment options on your gold loan.</p>
                                     </div>
                                 </div>
-                                <div className=" bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-2xl p-1 pb-3">
-                                    <div className="text-center p-8 bg-white rounded-xl shadow borders hover:shadow-2xl transition-shadow duration-300">
-                                        <div className="flex">
-                                            <div className="mx-auto p-1 rounded-full mb-4 flex bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500">
-                                                <div className="w-12 h-12 flex justify-center items-center bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-full ">
+
+                                {/* No Hidden Charges */}
+                                <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-2xl p-1 pb-3">
+                                    <div className="text-center p-8 bg-white rounded-xl shadow hover:shadow-2xl transition-shadow duration-300">
+                                        <div className="flex justify-center">
+                                            <div className="p-1 rounded-full mb-4 flex bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500">
+                                                <div className="w-12 h-12 flex justify-center items-center bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-full">
                                                     <FontAwesomeIcon icon={faEye} className="text-2xl mx-auto text-white" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <h3 className="text-2xl font-semibold text-gray-800 mb-4">No Hidden Charges</h3>
-                                        <p className="text-gray-700">Transparent pricing with no hidden fees or charges.</p>
+                                        <h3 className="text-2xl font-semibold text-yellow-900 mb-4">Transparent Terms</h3>
+                                        <p className="text-gray-800">Enjoy transparent terms and no hidden charges, ensuring complete peace of mind.</p>
                                     </div>
                                 </div>
                             </div>
