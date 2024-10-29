@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { doc, setDoc } from "firebase/firestore";
 
 function EmailVerify() {
-    const nameandphone = useSelector((state) => state.form.nameandphone);
+    const nameandphone = useSelector((state) => state.form.form1);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [sentEmail, setSentEmail] = useState(false);
