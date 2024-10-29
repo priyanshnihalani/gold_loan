@@ -4,7 +4,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { useState } from "react";
 function ContactForm() {
-    const [count, setcount] = useState(null)
+    const [count, setcount] = useState(0)
     const { register, handleSubmit, formState: {errors} } = useForm();
     const onSubmit = async (data) => {
         auth.onAuthStateChanged(async (user) => {
