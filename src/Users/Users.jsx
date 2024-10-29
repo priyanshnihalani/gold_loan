@@ -32,7 +32,7 @@ function Users() {
   }, [id]);
 
   useEffect(() => {
-    if (userData?.loan_info && userData?.loan_info.status.loanStatus == "approved...") {
+    if (userData?.loan_info && userData?.loan_info?.status.loanStatus == "approved...") {
       const months = Number(userData.personal_Info.loanperiod) || 0;
       const interestAmount = Number(userData.loan_info.TotalAmountInterest?.TotalInterest) || 0;
       const totalAmount = Number(userData.loan_info.TotalAmountInterest?.TotalAmount) || 0;
@@ -49,7 +49,7 @@ function Users() {
   }, [userData]);
 
   useEffect(() => {
-    if (!userData.hasOwnProperty('loan_info')) {
+    if (!userData.loan_info?.hasOwnProperty('status')) {
       return
     }
     else {
@@ -201,7 +201,7 @@ function Users() {
 
         {/* Loan Details Section */}
         <div className="w-full ">
-          {userData.loan_info ? (
+          {userData?.loan_info?.status.hasOwnProperty('status') ? (
             <div>
               <div className="mb-4 text-justify">
                 <p className="bg-gray-50 rounded-lg p-4 text-lg font-semibold text-gray-800">

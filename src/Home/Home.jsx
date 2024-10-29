@@ -123,12 +123,12 @@ function Home() {
 
     const handleApply = () => {
         if (userId) {
-            if (!data?.loan_info?.hasOwnProperty('status')) {
+            if (!data?.loan_info?.hasOwnProperty('status') ||  data.loan_info?.status?.loanStatus === 'rejected...') {
+
                 navigate('/personal_info');
             } else {
                 let remainingEmi = Number(data.loan_info.remainEmi);
-                console.log(remainingEmi);
-                if (remainingEmi > 0) {
+                if ( data.loan_info?.status.loanStatus === 'pending...' || remainingEmi > 0 ) {
                     setDisplay(true);
                 }
             }
