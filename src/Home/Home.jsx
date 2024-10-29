@@ -265,7 +265,7 @@ function Home() {
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                                 {/* Quick Approval */}
                                 <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-2xl p-1 pb-2">
-                                    <div className="text-center p-8 bg-white rounded-xl shadow hover:shadow-2xl transition-shadow duration-300">
+                                    <div className="text-center p-6 bg-white rounded-xl shadow hover:shadow-2xl transition-shadow duration-300">
                                         <div className="flex justify-center">
                                             <div className="p-1 rounded-full mb-4 flex bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500">
                                                 <div className="w-12 h-12 flex justify-center items-center bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-full">
@@ -280,7 +280,7 @@ function Home() {
 
                                 {/* Low Interest Rates */}
                                 <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-2xl p-1 pb-2">
-                                    <div className="text-center p-8 bg-white rounded-xl shadow hover:shadow-2xl transition-shadow duration-300">
+                                    <div className="text-center p-6 bg-white rounded-xl shadow hover:shadow-2xl transition-shadow duration-300">
                                         <div className="flex justify-center">
                                             <div className="p-1 rounded-full mb-4 flex bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500">
                                                 <div className="w-12 h-12 flex justify-center items-center bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-full">
@@ -294,8 +294,8 @@ function Home() {
                                 </div>
 
                                 {/* No Hidden Charges */}
-                                <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-2xl p-1 pb-3">
-                                    <div className="text-center p-8 bg-white rounded-xl shadow hover:shadow-2xl transition-shadow duration-300">
+                                <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-2xl p-1 pb-2">
+                                    <div className="text-center p-6 bg-white rounded-xl shadow hover:shadow-2xl transition-shadow duration-300">
                                         <div className="flex justify-center">
                                             <div className="p-1 rounded-full mb-4 flex bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500">
                                                 <div className="w-12 h-12 flex justify-center items-center bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-full">
