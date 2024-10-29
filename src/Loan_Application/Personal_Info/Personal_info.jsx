@@ -25,7 +25,7 @@ function PersonalInfo() {
         try {
             const canvas = sigCanvas.current.getTrimmedCanvas();
             
-            const blob = await new Promise((resolve, reject) => {
+            await new Promise((resolve, reject) => {
                 canvas.toBlob((blob) => {
                     if (blob) resolve(blob);
                     else reject(new Error('Failed to convert canvas to Blob'));
@@ -53,14 +53,14 @@ function PersonalInfo() {
         <>
 
             <Header />
-            <div className="bg-white min-h-screen p-4 md:p-6">
+            <div className="w-full bg-white min-h-screen p-4 md:p-6">
                 <div className=" mt-28 md:mx-auto lg:w-1/2 text-balance md:text-justify px-8 space-y-2">
                     <h2 className="text-2xl font-bold text-justify text-yellow-500">How Gold Loan is Important?</h2>
                     <p className="text-justify text-lg">
                         A gold loan is a quick and reliable way to access funds by leveraging your gold assets without having to sell them. It offers lower interest rates, flexible repayment options, and immediate loan disbursement, making it an ideal choice for urgent financial needs.
                     </p>
                 </div>
-                <form className="w-full px-2 py-4 rounded-lg my-5" onSubmit={handleSubmit(onSubmit)}>
+                <form className="mx-auto md:w-[80%] py-4 rounded-lg my-5" onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex w-full md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto overflow-x-auto space-x-6 pb-4 mt-5 bg-white shadow rounded-lg scroller">
                         <div className="flex-shrink-0 w-full p-4 rounded-lg min-w-[300px]">
                             {/* Loan Request Details Section */}
@@ -68,18 +68,7 @@ function PersonalInfo() {
                                 <h2 className="text-xl font-semibold mb-10">Loan Request Details</h2>
                                 <div className="space-y-6">
                                     <div className="space-y-2">
-                                        <div className="flex items-center">
-                                            <label className="w-1/3 text-gray-700">Loan Amount:</label>
-                                            <input
-                                                type="text"
-                                                className="flex-1 border-b-2 border-dashed border-gray-300 focus:outline-none focus:border-blue-500"
-                                                placeholder="Rs."
-                                                {...register('loanamount', {
-                                                    required: "Loan Amount Required",
-                                                    validate: value => !isNaN(value) && value >= 0 || 'Amount Must be a Positive Number'
-                                                })}
-                                            />
-                                        </div>
+                                        
                                         <div>
                                             {errors.loanamount && (
                                                 <p className="text-red-500">

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { doc, setDoc } from "firebase/firestore";
 
 function EmailVerify() {
-    const form1Data = useSelector((state) => state.form.form1);
+    const nameandphone = useSelector((state) => state.form.nameandphone);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [sentEmail, setSentEmail] = useState(false);
@@ -41,7 +41,7 @@ function EmailVerify() {
                                     clearInterval(intervalId);
                                     const profile = doc(firestoredb, "users", user.uid);
                                     let collection = {
-                                        "profile":form1Data
+                                        "profile":nameandphone
                                     }
                                     await setDoc(profile, collection, {merge:true})
                                     navigate('/');
