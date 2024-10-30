@@ -21,7 +21,7 @@ function ContactForm() {
 
                     // Instead of using user.uid for the document ref,
                     // add the data to a subcollection for that user
-                    const userContactRef = collection(firestoredb, `contact/${user.uid}/submissions`); // Create a subcollection
+                    const userContactRef = collection(firestoredb, `contact`); // Create a subcollection
                     await addDoc(userContactRef, data); // Use addDoc to create a new document
 
                     // Update the counter in Firestore directly
