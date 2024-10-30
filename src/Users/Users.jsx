@@ -30,6 +30,7 @@ function Users() {
     }
     fetchUserData();
   }, [id]);
+  console.log(userData)
 
   useEffect(() => {
     if (userData?.loan_info && userData?.loan_info?.status.loanStatus == "approved...") {
@@ -105,7 +106,7 @@ function Users() {
       }, { merge: true });
 
       if (remainEmi <= 0) {
-        alert('loan pain successfully')
+        alert('loan paid successfully')
       }
 
     } catch (error) {
@@ -201,7 +202,7 @@ function Users() {
 
         {/* Loan Details Section */}
         <div className="w-full ">
-          {userData?.loan_info?.status.hasOwnProperty('status') ? (
+          {userData?.loan_info?.status.hasOwnProperty('loanStatus') ? (
             <div>
               <div className="mb-4 text-justify">
                 <p className="bg-gray-50 rounded-lg p-4 text-lg font-semibold text-gray-800">
