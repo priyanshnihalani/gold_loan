@@ -23,17 +23,17 @@ function Footer() {
                                         </a>
                                     </div>
                                     <div className='rounded-full bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 p-1'>
-                                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex text-white  bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 p-3 lg:p-4 rounded-full hovers">
+                                        <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="flex text-white  bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 p-3 lg:p-4 rounded-full hovers">
                                             <FaTwitter size={16} />
                                         </a>
                                     </div>
                                     <div className='rounded-full bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 p-1'>
-                                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex text-white  bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 p-3 lg:p-4 rounded-full hovers">
+                                        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="flex text-white  bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 p-3 lg:p-4 rounded-full hovers">
                                             <FaInstagram size={16} />
                                         </a>
                                     </div>
                                     <div className='rounded-full bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500 p-1'>
-                                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex text-white  bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 p-3 lg:p-4 rounded-full hovers">
+                                        <a href="https://www.linkedin.com/in/priyansh-nihalani/" target="_blank" rel="noopener noreferrer" className="flex text-white  bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 p-3 lg:p-4 rounded-full hovers">
                                             <FaLinkedinIn size={16} />
                                         </a>
                                     </div>

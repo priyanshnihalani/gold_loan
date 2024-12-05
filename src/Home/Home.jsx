@@ -61,7 +61,7 @@ function Home() {
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [customerRef]);
 
     // Fetch user data on auth state change
     useEffect(() => {
